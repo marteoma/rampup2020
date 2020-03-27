@@ -1,7 +1,25 @@
 version: "3"
 services:
-    tomcat:
-        container_name: tomcat
-        build: .
+    postgres:
+        container_name: postgres
+        build:
+            context: .
+            dockerfile: postgres.Dockerfile
         ports:
+            - 5432:5432
+        environment: 
+            POSTGRES_PASSWORD: password
+        #     POSTGRES_USER: "admin_u"
+        #     POSTGRES_DB: "mail2clients"
+    tomcat:
+        depends_on: 
+            - postgres
+        container_name: tomcat
+        build: # Build the Dockerfile on this directory for this service
+            context: .
+            dockerfile: tomcat.Dockerfile
+        ports: # The application is binding 8080 (Tomcat Default Port) of the container to 8080 of the host to be able to use the app on the host.
             - 8080:8080
+    #     environment: 
+    #         DATABASE_USERNAME: $${DATABASE_USERNAME}
+    #         DATABASE_PASSWORD: $${DATABASE_PASSWORD}

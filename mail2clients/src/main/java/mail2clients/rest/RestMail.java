@@ -46,10 +46,12 @@ public class RestMail {
             @RequestParam("content") String content,
             @RequestParam("subject") String subject,
             HttpServletRequest request) throws Exception {
-
+            
+        
         DataLog response = new DataLog(new Date().getTime(), request.getRemoteAddr());
         List<String> mailingList = new ArrayList<>();
 
+        
         try {
 
             //Validate mandatory fields
@@ -122,7 +124,7 @@ public class RestMail {
 
 
         } catch (Exception ex) {
-            loggerService.addEmailLog(response.getSerial(), subject, false, ex.getMessage());
+            loggerService.addEmailLog(response.getSerial(), subject, false, "Error con el mensaje");
             logger.log(Level.SEVERE, StatusEnum.INTERNAL_SERVER_ERROR.getStatus() + "Email ID [" + response.getSerial() + "] " + ex.getMessage(), ex);
             return BuildResponse.status(HttpStatus.INTERNAL_SERVER_ERROR, BuildResponse.buildURL(request), StatusEnum.INTERNAL_SERVER_ERROR.getStatus(), response);
         }
