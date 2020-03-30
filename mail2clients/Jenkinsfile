@@ -32,9 +32,10 @@ pipeline {
         }
         stage('Deploy Artifact') {
             steps {
-                dir('mail2clients') {
-                    // Send the war artifact to a nexus server
-                    sh 'mvn clean deploy -Dmaven.test.skip=true'
+                withCredentials([file(credentialsId: 'settings.xml', variable: 'settings')]) {
+                    dir('mail2clients') {
+                        sh 'mvn clean deploy -Dmaven.test.skip=true -s $settings'
+                    }
                 }
             }
         }
