@@ -33,5 +33,14 @@ pipeline {
                 }
             }
         }
+        stage('Deploy Artifact') {
+            agent any
+            steps {
+                dir('mail2clients') {
+                    // Send the war artifact to a nexus server
+                    sh 'mvn clean deploy -Dmaven.test.skip=true'
+                }
+            }
+        }
     }
 }
