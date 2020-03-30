@@ -18,7 +18,7 @@ pipeline {
                 // If Maven was able to run the tests, even if some of the test
                 // failed, record the test results and archive the war file.
                 success {
-                    junit '**/arget/surefire-reports/TEST-*.xml'
+                    junit '**/mail2clients/arget/surefire-reports/TEST-*.xml'
                     archiveArtifacts 'mail2clients/target/*.war'
                 }
             }
