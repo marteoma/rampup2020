@@ -19,7 +19,7 @@ The build step automatically runs the test, so there is not test step, but an ar
 
 ## Pipeline
 
-The pipeline consists of only two stages, Build and Local Deploy.
+The pipeline consists of three stages, Build, Local Deploy and Deploy Artifact.
 
 ### Build Stage
 
@@ -31,6 +31,10 @@ There is also a post step, that generate a report of unit tests, and archive the
 
 The first step of the stage is to remove any possible container associated to the project, to avoid conflicts with the new ones. This by executin the command ```docker-compose down```.
 The next step runs ```docker-compose up``` whith some flags to make a clean execution.What this does, is run all the services needed to make the application works.
+
+### Deploy Artifact
+
+This stage runs ```mvn deploy``` to send the mail2clients.war to a nexus repository.
 
 ### Artifacts
 
