@@ -1,0 +1,32 @@
+pipeline {
+    agent none
+    stages {
+        stage('Build') {
+            agent { 
+                // Run this stage on a maven container environment
+                docker {
+                   image 'maven'
+                }
+            }
+            steps {
+                // Run Maven on a Unix agent.
+                sh "mvn -Dmaven.test.failure.ignore=true clean package"
+            }
+            post {
+                // If Maven was able to run the tests, even if some of the test
+                // failed, record the test results and archive the war file.
+                success {
+                    junit '**/target/surefire-reports/TEST-*.xml'
+                    archiveArtifacts 'target/*.war'
+                }
+            }
+        }
+        stage('Local Deploy') {
+            agent any
+            steps {
+                // Run the whole project in a clean way on the host machine
+                sh 'docker-compose up -d --remove-orphans -V'
+            }
+        }
+    }
+}
