@@ -28,7 +28,7 @@ pipeline {
             steps {
                 dir('mail2clients') {
                     // Run the whole project in a clean way on the host machine
-                    sh 'docker-compose up -d --remove-orphans -V'
+                    sh 'docker-compose up -d --build --remove-orphans -V'
                 }
             }
         }

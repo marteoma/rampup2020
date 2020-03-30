@@ -2,9 +2,9 @@
 set -e
 
 psql -v ON_ERROR_STOP=1 --username postgres --dbname postgres <<-EOSQL
-    CREATE USER admin_db WITH PASSWORD 'Adm1n_d4ta';
+    CREATE USER $DATABASE_USERNAME WITH PASSWORD '$DATABASE_PASSWORD';
     CREATE DATABASE mail2clients;
-    GRANT ALL PRIVILEGES ON DATABASE mail2clients TO admin_db;
+    GRANT ALL PRIVILEGES ON DATABASE mail2clients TO $DATABASE_USERNAME;
 EOSQL
 
 psql -v ON_ERROR_STOP=1 --username postgres --dbname mail2clients <<-EOSQL
@@ -16,7 +16,7 @@ psql -v ON_ERROR_STOP=1 --username postgres --dbname mail2clients <<-EOSQL
     log_content       VARCHAR(2500)               NOT NULL,
     log_timestamp     TIMESTAMP WITHOUT TIME ZONE NOT NULL DEFAULT current_timestamp
     ) WITH (OIDS =FALSE);
-    ALTER TABLE email_logger OWNER TO admin_db;
+    ALTER TABLE email_logger OWNER TO $DATABASE_USERNAME;
 
     DROP DATABASE postgres;
 EOSQL

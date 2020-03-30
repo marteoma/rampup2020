@@ -8,7 +8,9 @@ services:
         ports: # Bind database to the host, to be able to enter the database.
             - 5432:5432
         environment: 
-            POSTGRES_PASSWORD: $${POSTGRES_PASSWORD}
+            POSTGRES_PASSWORD: password
+            DATABASE_USERNAME: admin_db
+            DATABASE_PASSWORD: Adm1n_d4ta
     tomcat:
         depends_on: # The Tomcat server needs the database to work.
             - postgres
@@ -20,7 +22,7 @@ services:
         ports: # The application is binding 8080 (Tomcat Default Port) of the container to 8000 of the host to be able to use the app on the host.
             - 8000:8080
         environment: 
-            DATABASE_USERNAME: $${DATABASE_USERNAME}
-            DATABASE_PASSWORD: $${DATABASE_PASSWORD}
+            DATABASE_USERNAME_ENV: $${DATABASE_USERNAME}
+            DATABASE_PASSWORD_ENV: $${DATABASE_PASSWORD}
             MAIL_USERNAME: $${MAIL_USERNAME}
             MAIL_PASSWORD: $${MAIL_PASSWORD}
