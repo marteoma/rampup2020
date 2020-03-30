@@ -1,13 +1,11 @@
 pipeline {
-    agent none
+    agent any
+    tools {
+        maven 'maven'
+        jdk 'jdk8'
+    }
     stages {
         stage('Build') {
-            agent { 
-                // Run this stage on a maven container environment
-                docker {
-                   image 'maven'
-                }
-            }
             steps {
                 dir('mail2clients') {
                     // Run Maven on a Unix agent.
@@ -24,7 +22,6 @@ pipeline {
             }
         }
         stage('Local Deploy') {
-            agent any
             steps {
                 dir('mail2clients') {
                     // Run the whole project in a clean way on the host machine
@@ -34,7 +31,6 @@ pipeline {
             }
         }
         stage('Deploy Artifact') {
-            agent any
             steps {
                 dir('mail2clients') {
                     // Send the war artifact to a nexus server
