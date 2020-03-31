@@ -7,6 +7,7 @@ __Tomcat:__ Servlet container
 __PostgreSQL:__ Database
 __Docker-compose:__ Container manager
 __Jenkins:__ CI tool
+__Ngrok:__ Port forwarding for Jenkins
 
 ## Individual options
 
@@ -41,3 +42,20 @@ This stage runs ```mvn deploy``` to send the mail2clients.war to a nexus reposit
 The pipeline will generate one artifact if something goes wrong, or two if at least the build stage finishes succesfuly.
 The first one is the pipeline.log, a log of how the pipeline was. This artifact will be always generated, no matter how the pipelines ends.
 The second one, is the mail2clients.war, this artifact will be generated when the build finishes.
+
+## Services
+
+### Tomcat
+
+This is the main service, is a Tomcat 9 container, with the war file inside to serve it. This service connect with the postgres service to make the java app able to use the database.
+This is 
+ bind to the 8000 port of the host, and has 4 environment variables, which are, the credentiasl for the emal, and the credentials for the database.
+
+### Postgres
+
+This is the database service, it has three environment variables, one for the initial password for the main user. And the other two for the credentails of the user of the app.
+This is bind to the 5432 port, as usual for postgresql.
+
+## App
+
+To see information about how the apps works, see the app_README.md file
